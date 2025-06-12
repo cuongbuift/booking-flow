@@ -118,7 +118,8 @@ import { useRoute, useRouter } from 'vue-router';
 import Room from '../components/Room.vue';
 import { type RoomInfo } from '../types';
 import { getRooms } from '../services/mock.service';
-import { formatDate } from '@/helpers/format-helper';
+import { formatDate } from '../helpers/formatHelper';
+import useBookingStore from '../stores/bookingStore';
 import dayjs from 'dayjs';
 
 const dropdownOpen = ref(false);
@@ -134,6 +135,7 @@ const children = route.query.children as string;
 const adults = route.query.adults as string;
 
 const night = dayjs(toDate).diff(dayjs(fromDate), 'day');
+const bookingStore = useBookingStore();
 
 watch(selectedOption, async (newValue) => {
   await loadRoom();
@@ -154,7 +156,7 @@ const selectOption = (option: string) => {
 };
 
 const selectRoom = (room: RoomInfo) => {
-  console.log('Selected room:', room);
+  bookingStore.selectRoom(room, fromDate, toDate, adults, children);
   router.push('/contact-details');
 };
 

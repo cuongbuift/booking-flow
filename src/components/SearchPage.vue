@@ -35,7 +35,7 @@
       <div class="dropdown-menu" v-show="openDropdown" @click.stop>
         <div
           class="guest-picker-item"
-          v-for="(label, key) in { adults: 'Adults', children: 'Children', rooms: 'Rooms' }"
+          v-for="(label, key) in { adults: 'Adults', children: 'Children' }"
           :key="key"
         >
           <label>{{ label }}</label>
@@ -67,6 +67,7 @@
         :format="format"
         :enable-time-picker="false"
         :range="{ minRange: 1 }"
+        :clearable="false"
         multi-calendars
       />
     </div>
@@ -147,7 +148,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
-import { formatDateISO } from '@/helpers/format-helper';
+import { formatDate, formatDateISO } from '../helpers/formatHelper';
 const openDropdown = ref<boolean>(false);
 // Range selection
 const dateRange = ref<[Date, Date]>([new Date(), dayjs(new Date()).add(1, 'day').toDate()]);
@@ -155,7 +156,6 @@ const dateRange = ref<[Date, Date]>([new Date(), dayjs(new Date()).add(1, 'day')
 const guests = ref({
   adults: 1,
   children: 0,
-  rooms: 1,
 });
 
 const router = useRouter();
@@ -172,15 +172,12 @@ const search = () => {
 };
 
 const guestText = computed(() => {
-  return `${guests.value.adults} Adult${guests.value.adults > 1 ? 's' : ''}, ${guests.value.children} Child${guests.value.children !== 1 ? 'ren' : ''}, ${guests.value.rooms} Room${guests.value.rooms > 1 ? 's' : ''}`;
+  // return `${guests.value.adults} Adult${guests.value.adults > 1 ? 's' : ''}, ${guests.value.children} Child${guests.value.children !== 1 ? 'ren' : ''}, ${guests.value.rooms} Room${guests.value.rooms > 1 ? 's' : ''}`;
+  return `${guests.value.adults} Adult${guests.value.adults > 1 ? 's' : ''}, ${guests.value.children} Child${guests.value.children !== 1 ? 'ren' : ''}`;
 });
 
 const format = (dates: Date[]) => {
-  const f = (date: Date) => {
-    return dayjs(date).format('DD-MMM-YYYY');
-  };
-
-  return `${f(dates[0])} ⇀ ${f(dates[1])}`;
+  return `${formatDate(dates[0])} ⇀ ${formatDate(dates[1])}`;
 };
 
 const toggleDropdown = () => {

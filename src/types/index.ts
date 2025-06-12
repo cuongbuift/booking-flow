@@ -8,17 +8,21 @@ export interface RoomInfo {
 }
 
 export interface Contact {
-  title?: 'Mr.' | 'Ms.' | 'Mrs.';
+  title?: string;
   fullName?: string;
   emailAddress?: string;
 }
 
 export interface Booking {
+  no?: string;
   fromDate?: string | Date;
   toDate?: string | Date;
   room?: RoomInfo;
   contact?: Contact;
+  adults?: number;
+  children?: number;
+  night?: number;
   tax?: number;
+  roomPrice?: number;
   totalPrice?: number;
-  numberOfQuests?: number;
 }

@@ -26,8 +26,12 @@
               </svg>
             </button>
             <div class="dropdown-menu" v-show="dropdownOpen">
-              <a class="dropdown-item" href="#" @click.prevent="selectTitle('Mr.')">Mr.</a>
-              <a class="dropdown-item" href="#" @click.prevent="selectTitle('Mrs.')">Mrs.</a>
+              <a class="dropdown-item" href="javascript:" @click.prevent="selectTitle('Mr.')"
+                >Mr.</a
+              >
+              <a class="dropdown-item" href="javascript:" @click.prevent="selectTitle('Mrs.')"
+                >Mrs.</a
+              >
             </div>
           </div>
         </div>
@@ -48,7 +52,7 @@
 
     <div class="right-content">
       <div class="search-selected-dates">
-        <span>JUN 17, 2025</span>
+        <span>{{ formatDate(store.fromDate) }}</span>
         <svg
           width="16"
           height="16"
@@ -65,23 +69,23 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span>JUN 18, 2025</span>
+        <span>{{ formatDate(store.toDate) }}</span>
       </div>
 
-      <h4>ROOM: 1 GUEST</h4>
-      <img src="../assets/room.webp" alt="" class="room-thumbnail" />
-      <h5 class="room-title">ROOM 1 TITLE</h5>
+      <h4>{{ store.room?.title }}</h4>
+      <img :src="store.room?.image" :alt="store.room?.title" class="room-thumbnail" />
+      <h5 class="room-title">{{ store.room?.description }}</h5>
       <div class="fees">
         <span>Room</span>
-        <span>S$1,080.00</span>
+        <span>{{ formatCurrency(store.roomPrice, 2) }}</span>
       </div>
       <div class="fees">
         <span>Tax & Service Charges (9%)</span>
-        <span>S$97.20</span>
+        <span>{{ formatCurrency(store.tax, 2) }}</span>
       </div>
       <div class="fees">
         <span>TOTAL</span>
-        <span>S$1,177.20</span>
+        <span>{{ formatCurrency(store.totalPrice, 2) }}</span>
       </div>
     </div>
   </div>
@@ -211,14 +215,17 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+import { formatDate, formatCurrency } from '../helpers/formatHelper';
+import useBookingStore from '../stores/bookingStore';
 
 const router = useRouter();
 
 const dropdownOpen = ref(false);
 const selectedTitle = ref('Mr.');
-const name = ref('Adam');
-const email = ref('bazytepu@teleg.eu');
+const name = ref('');
+const email = ref('');
 const dropdownRef = ref<HTMLElement | null>(null);
+const store = useBookingStore();
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
@@ -236,6 +243,7 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 
 const submit = () => {
+  store.addContact(selectedTitle.value, name.value, email.value);
   router.push('/confirmation');
 };
 

@@ -1,27 +1,27 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     isAuthenticated: false,
-    user: null,
-    bookingDetails: null
+    user: { email: '' },
+    bookingDetails: null,
   }),
   actions: {
-    login(email, password) {
+    login(email: string, password: string) {
       if (email && password) {
-        this.user = { email }
-        this.isAuthenticated = true
-        return true
+        this.user = { email };
+        this.isAuthenticated = true;
+        return true;
       }
-      return false
+      return false;
     },
     logout() {
-      this.isAuthenticated = false
-      this.user = null
-      this.bookingDetails = null
+      this.isAuthenticated = false;
+      this.user = null;
+      this.bookingDetails = null;
     },
     saveBooking(details) {
-      this.bookingDetails = details
-    }
-  }
-})
+      this.bookingDetails = details;
+    },
+  },
+});

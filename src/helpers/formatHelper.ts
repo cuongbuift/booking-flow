@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
 
-export const formatNumber = (value: number) => {
+export const formatNumber = (value: number, digits: number = 0) => {
   return new Intl.NumberFormat('en-US', {
     style: 'decimal',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   }).format(value);
 };
 
-export const formatCurrency = (value: number) => {
-  return `S$${formatNumber(value)}`;
+export const formatCurrency = (value: number, digits: number = 0) => {
+  return `S$${formatNumber(value, digits)}`;
 };
 
 export const formatDateISO = (value: Date | string | null) => {
