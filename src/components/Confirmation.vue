@@ -1,5 +1,5 @@
 <template>
-  <div class="confirmation-page-content center-block">
+  <div class="confirmation center-block">
     <div class="text-content">
       <h2>YOUR BOOKING HAS BEEN CONFIRMED</h2>
       <p>We have sent your booking confirmation to the email address that you have provided.</p>
@@ -27,7 +27,7 @@
       <p>Total Price for 1 Night: <strong>S$1,177.20</strong></p>
     </div>
 
-    <div class="booking-info-show">
+    <div class="booking-info">
       <div class="left-content">
         <div class="flex-box">
           <img src="../assets/room.webp" alt="" class="room-thumbnail" />
@@ -60,13 +60,13 @@
   </div>
 </template>
 <style scoped lang="less">
-.confirmation-page-content {
+.confirmation {
   .text-content {
     margin-bottom: 2rem;
     text-align: center;
     h2 {
-      font-size: 2.5rem;
-      font-weight: 600;
+      font-size: 1.8rem;
+      font-weight: 400;
       margin-bottom: 2rem;
       @media (max-width: 767px) {
         font-size: 1.5rem;
@@ -77,7 +77,7 @@
       letter-spacing: 1px;
     }
   }
-  .booking-info-show {
+  .booking-info {
     display: flex;
     padding: 1rem;
     text-align: left;

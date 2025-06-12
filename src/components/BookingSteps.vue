@@ -1,20 +1,35 @@
 <template>
   <div class="booking-steps">
-    <div class="item">
+    <RouterLink class="item" to="/search">
       <span>1</span>
-      <span>SEARCH</span>
-    </div>
-    <div class="item">
+      <span>Search</span>
+    </RouterLink>
+
+    <RouterLink v-if="props.step > 2" to="/room" class="item">
       <span>2</span>
-      <span>SELECT ROOM</span>
+      <span>Select room</span>
+    </RouterLink>
+    <div v-else class="item">
+      <span>2</span>
+      <span>Select room</span>
     </div>
-    <div class="item disabled">
+
+    <RouterLink
+      v-if="props.step > 3"
+      class="item"
+      to="/contact-details"
+      :class="{ disabled: props.step < 3 }"
+    >
       <span>3</span>
-      <span>CONTACT DETAILS</span>
+      <span>Contact details</span>
+    </RouterLink>
+    <div v-else class="item" :class="{ disabled: props.step < 3 }">
+      <span>3</span>
+      <span>Contact details</span>
     </div>
     <div class="item disabled">
       <span>4</span>
-      <span>CONFIRMATION</span>
+      <span>Confirmation</span>
     </div>
   </div>
 </template>
@@ -54,8 +69,16 @@
         border-radius: 50%;
         margin-right: 1rem;
       }
+      &:last-child {
+        text-transform: uppercase;
+      }
     }
   }
 }
 </style>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+const props = defineProps<{
+  step: number;
+}>();
+</script>

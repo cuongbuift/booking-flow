@@ -1,5 +1,5 @@
 <template>
-  <BookingSteps />
+  <BookingSteps :step="2" />
   <ListingRoom />
 </template>
 

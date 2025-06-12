@@ -54,45 +54,7 @@
     </div>
   </div>
   <div class="listing-room-block">
-    <div class="item">
-      <div>
-        <img src="../assets/room.webp" alt="" class="room-thumbnail" />
-      </div>
-
-      <div class="room-info">
-        <h4 class="room-title">ROOM 1 TITLE</h4>
-        <h6>LOREM IPSUM</h6>
-        <p class="desc">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        </p>
-      </div>
-
-      <div class="book-room-block">
-        <p class="price"><span>S$1,080</span>/night</p>
-        <p>Subject to GST and charges</p>
-        <button type="button" class="btn-common" @click="selectRoom">BOOK ROOM</button>
-      </div>
-    </div>
-
-    <div class="item">
-      <div>
-        <img src="../assets/room.webp" alt="" class="room-thumbnail" />
-      </div>
-
-      <div class="room-info">
-        <h4 class="room-title">ROOM 1 TITLE</h4>
-        <h6>LOREM IPSUM</h6>
-        <p class="desc">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        </p>
-      </div>
-
-      <div class="book-room-block">
-        <p class="price"><span>S$1,080</span>/night</p>
-        <p>Subject to GST and charges</p>
-        <button type="button" class="btn-common" @click="selectRoom">BOOK ROOM</button>
-      </div>
-    </div>
+    <Room v-for="room in rooms" :key="room.key" :room="room" @selectRoom="selectRoom" />
   </div>
 </template>
 <style scoped lang="less">
@@ -140,78 +102,29 @@
     }
   }
 }
-
-.listing-room-block {
-  .item {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    background-color: #f0f1eb;
-    border: 1px solid #ddd;
-    @media (max-width: 767px) {
-      flex-direction: column;
-      padding: 1rem;
-    }
-    .room-thumbnail {
-      width: 100%;
-      max-width: 32.5rem;
-      aspect-ratio: 340/210;
-      object-fit: cover;
-      padding: 1rem 0 1rem 1rem;
-      @media (max-width: 767px) {
-        max-width: unset;
-        padding: 0;
-      }
-    }
-    .room-info {
-      flex: 1;
-      padding: 1rem 0;
-      .room-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-      }
-      h6 {
-        font-size: 1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-      .desc {
-        font-size: 0.875rem;
-        color: #666;
-        margin-bottom: 0;
-      }
-    }
-    .price {
-      margin-bottom: 1rem;
-      span {
-        font-size: 2rem;
-        font-weight: 600;
-      }
-    }
-    .book-room-block {
-      padding: 0 1rem;
-      background: #e0e2d7;
-      @media (max-width: 767px) {
-        padding: 0 1rem 1rem;
-      }
-    }
-    .btn-common {
-      margin-top: 2.5rem;
-    }
-  }
-}
 </style>
 
 <script setup lang="ts">
 import $ from 'jquery';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Room from '../components/Room.vue';
+import { RoomInfo } from '../types';
+import { getRooms } from '../services/mock.service';
 
 const router = useRouter();
 
-const selectRoom = () => {
+const rooms = ref<RoomInfo[]>([]);
+
+const selectRoom = (room: RoomInfo) => {
+  console.log('Selected room:', room);
+
   router.push('/contact-details');
 };
+
+onMounted(async () => {
+  rooms.value = await getRooms();
+});
 
 $(function () {
   $('.dropdown-btn').click(function (e) {
