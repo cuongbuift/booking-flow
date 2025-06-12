@@ -1,6 +1,6 @@
 <template>
   <div class="room-item">
-    <div>
+    <div class="img-block">
       <img :src="props.room?.image" :alt="props.room?.title" class="room-thumbnail" />
     </div>
 
@@ -27,21 +27,27 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  background-color: #f0f1eb;
-  border: 1px solid #ddd;
+  background-color: var(--vt-c-gray);
+  border: 1px solid var(--vt-c-gray-soft);
   @media (max-width: 767px) {
     flex-direction: column;
     padding: 1rem;
   }
-  .room-thumbnail {
-    width: 100%;
-    max-width: 32.5rem;
-    aspect-ratio: 340/210;
-    object-fit: cover;
-    padding: 1rem 0 1rem 1rem;
+  .img-block {
+    width: 35%;
     @media (max-width: 767px) {
-      max-width: unset;
-      padding: 0;
+      max-width: 100%;
+    }
+    .room-thumbnail {
+      width: 100%;
+      max-width: 32.5rem;
+      aspect-ratio: 340/210;
+      object-fit: cover;
+      padding: 1rem 0 1rem 1rem;
+      @media (max-width: 767px) {
+        max-width: unset;
+        padding: 0;
+      }
     }
   }
   .room-info {
@@ -72,7 +78,7 @@
   }
   .book-room-block {
     padding: 0 1rem;
-    background: #e0e2d7;
+    background: var(--vt-c-gray-mute);
     @media (max-width: 767px) {
       padding: 0 1rem 1rem;
     }

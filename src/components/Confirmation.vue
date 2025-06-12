@@ -1,5 +1,5 @@
 <template>
-  <div class="confirmation center-block">
+  <div class="confirmation">
     <div class="text-content">
       <h2>YOUR BOOKING HAS BEEN CONFIRMED</h2>
       <p>We have sent your booking confirmation to the email address that you have provided.</p>
@@ -81,8 +81,8 @@
     display: flex;
     padding: 1rem;
     text-align: left;
-    background: #f0f1eb;
-    border: 1px solid #ddd;
+    background: var(--vt-c-gray);
+    border: 1px solid var(--vt-c-gray-soft);
     @media (max-width: 767px) {
       flex-direction: column;
     }
@@ -106,6 +106,7 @@
       margin-bottom: 0.5rem;
     }
     .flex-box {
+      display: flex;
       align-items: flex-start;
       text-align: left;
       margin-bottom: 1rem;
@@ -132,9 +133,14 @@
     .guest-detail {
       width: 35%;
       padding: 1.5rem 1rem;
-      background: #e0e2d7;
+      background: var(--vt-c-gray-mute);
       @media (max-width: 767px) {
         width: 100%;
+      }
+      h5 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
       }
     }
   }

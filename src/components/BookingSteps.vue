@@ -39,7 +39,7 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  background-color: #f0f1eb;
+  background-color: var(--vt-c-gray);
   padding: 1rem;
   margin-bottom: 1.5rem;
   @media (max-width: 767px) {
@@ -60,12 +60,12 @@
       white-space: nowrap;
       font-weight: 600;
       &:first-child {
-        color: #fff;
+        color: var(--vt-c-white);
         width: 2rem;
         height: 2rem;
         line-height: 2rem;
         text-align: center;
-        background-color: #000;
+        background-color: var(--vt-c-black);
         border-radius: 50%;
         margin-right: 1rem;
       }

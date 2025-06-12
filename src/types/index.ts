@@ -3,7 +3,7 @@ export interface RoomInfo {
   title?: string;
   description?: string;
   content?: string;
-  price?: number;
+  price: number;
   image?: string;
 }
 

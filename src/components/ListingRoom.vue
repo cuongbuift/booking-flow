@@ -1,7 +1,7 @@
 <template>
   <div class="search-selected-info">
     <div class="search-selected-dates">
-      <span>JUN 17, 2025</span>
+      <span>{{ formatDate(fromDate) }}</span>
       <svg
         width="24"
         height="24"
@@ -18,19 +18,20 @@
           stroke-linejoin="round"
         />
       </svg>
-      <span>JUN 18, 2025</span>
+      <span>{{ formatDate(toDate) }}</span>
     </div>
     <div class="search-selected-guests">
-      <span>1 NIGHT</span>
+      <span>{{ night }} NIGHT</span>
       <span>|</span>
-      <span>1 GUEST</span>
+      <span>{{ adults }} ADULT(S)</span>
+      <span v-if="children && children !== '0'">- {{ children }} CHILDREN</span>
     </div>
   </div>
   <div class="sort-by">
     <span>SORT BY:</span>
     <div class="dropdown">
-      <button class="dropdown-btn">
-        <span class="dropdown-text">LOWEST PRICE</span>
+      <button class="dropdown-btn" @click.stop="toggleDropdown">
+        <span class="dropdown-text">{{ selectedOption }}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -47,14 +48,21 @@
           />
         </svg>
       </button>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">LOWEST PRICE</a>
-        <a class="dropdown-item" href="#">HIGHEST PRICE</a>
+      <div class="dropdown-menu" v-show="dropdownOpen">
+        <a
+          class="dropdown-item"
+          href="javascript:"
+          v-for="option in options"
+          :key="option"
+          @click="selectOption(option)"
+        >
+          {{ option }}
+        </a>
       </div>
     </div>
   </div>
-  <div class="listing-room-block">
-    <Room v-for="room in rooms" :key="room.key" :room="room" @selectRoom="selectRoom" />
+  <div>
+    <Room v-for="room in rooms" :key="room.title" :room="room" @selectRoom="selectRoom" />
   </div>
 </template>
 <style scoped lang="less">
@@ -97,7 +105,7 @@
     .dropdown-btn {
       font-weight: 500;
       max-width: 200px;
-      padding-right: 0;
+      padding-right: 10px;
       background: unset;
     }
   }
@@ -105,45 +113,68 @@
 </style>
 
 <script setup lang="ts">
-import $ from 'jquery';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Room from '../components/Room.vue';
-import { RoomInfo } from '../types';
+import { type RoomInfo } from '../types';
 import { getRooms } from '../services/mock.service';
+import { formatDate } from '@/helpers/format-helper';
+import dayjs from 'dayjs';
 
+const dropdownOpen = ref(false);
+const selectedOption = ref('LOWEST PRICE');
+const options = ['LOWEST PRICE', 'HIGHEST PRICE'];
 const router = useRouter();
-
+const route = useRoute();
 const rooms = ref<RoomInfo[]>([]);
+
+const fromDate = route.query.fromDate as string;
+const toDate = route.query.toDate as string;
+const children = route.query.children as string;
+const adults = route.query.adults as string;
+
+const night = dayjs(toDate).diff(dayjs(fromDate), 'day');
+
+watch(selectedOption, async (newValue) => {
+  await loadRoom();
+  console.log(newValue);
+});
+
+const toggleDropdown = () => {
+  dropdownOpen.value = !dropdownOpen.value;
+};
+
+const closeDropdown = () => {
+  dropdownOpen.value = false;
+};
+
+const selectOption = (option: string) => {
+  selectedOption.value = option;
+  dropdownOpen.value = false;
+};
 
 const selectRoom = (room: RoomInfo) => {
   console.log('Selected room:', room);
-
   router.push('/contact-details');
 };
 
+const loadRoom = async () => {
+  rooms.value = [...(await getRooms(selectedOption.value === 'LOWEST PRICE' ? 'asc' : 'desc'))];
+};
+
 onMounted(async () => {
-  rooms.value = await getRooms();
+  loadRoom();
+  document.addEventListener('click', onClickOutside);
 });
 
-$(function () {
-  $('.dropdown-btn').click(function (e) {
-    e.stopPropagation();
-    const dropdown = $(this).next('.dropdown-menu');
-    $('.dropdown-menu').not(dropdown).hide();
-    dropdown.toggle();
-  });
+function onClickOutside(e: MouseEvent) {
+  const target = e.target as HTMLElement;
+  if (!target.closest('.dropdown')) {
+    closeDropdown();
+  }
+}
 
-  $(document).click(function () {
-    $('.dropdown-menu').hide();
-  });
-
-  $('.dropdown-item').click(function (e) {
-    e.preventDefault();
-    const textValue = $(this).text();
-    const $dropdown = $(this).closest('.dropdown');
-    $dropdown.find('.dropdown-text').text(textValue);
-    $dropdown.find('.dropdown-menu').hide();
-  });
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onClickOutside);
 });
 </script>

@@ -1,13 +1,14 @@
 <template>
   <div class="contact-details-block">
     <div class="contact-information">
-      <form action="#">
+      <form @submit.prevent="submit">
         <h2>CONTACT INFORMATION</h2>
+
         <div class="form-group">
           <label>Title</label>
-          <div class="dropdown">
-            <button class="dropdown-btn">
-              <span class="dropdown-text">Mr.</span>
+          <div class="dropdown" ref="dropdownRef">
+            <button class="dropdown-btn" @click="toggleDropdown" type="button">
+              <span class="dropdown-text">{{ selectedTitle }}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -24,29 +25,25 @@
                 />
               </svg>
             </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Mr.</a>
-              <a class="dropdown-item" href="#">Mrs.</a>
+            <div class="dropdown-menu" v-show="dropdownOpen">
+              <a class="dropdown-item" href="#" @click.prevent="selectTitle('Mr.')">Mr.</a>
+              <a class="dropdown-item" href="#" @click.prevent="selectTitle('Mrs.')">Mrs.</a>
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Enter your name" value="Adam" />
+          <input type="text" id="name" v-model="name" placeholder="Enter your name" />
         </div>
 
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="Enter your email address"
-            value="bazytepu@teleg.eu"
-          />
+          <input type="email" id="email" v-model="email" placeholder="Enter your email address" />
         </div>
       </form>
-      <button type="button" class="btn-common" @click="submit()">PROCEED</button>
+
+      <button type="button" class="btn-common" @click="submit">PROCEED</button>
     </div>
 
     <div class="right-content">
@@ -89,6 +86,7 @@
     </div>
   </div>
 </template>
+
 <style scoped lang="less">
 .contact-details-block {
   display: flex;
@@ -110,8 +108,8 @@
     }
     form {
       padding: 1rem 1rem 1.5rem;
-      background: #f0f1eb;
-      border: 1px solid #ddd;
+      background: var(--vt-c-gray);
+      border: 1px solid var(--vt-c-gray-soft);
       margin-bottom: 1.5rem;
       @media (max-width: 767px) {
         margin-bottom: 1rem;
@@ -138,7 +136,7 @@
           flex: 1;
           background: unset;
           border: unset;
-          border-bottom: 1px solid #ddd;
+          border-bottom: 1px solid var(--vt-c-gray-soft);
         }
         .dropdown {
           display: inline-block;
@@ -147,7 +145,11 @@
             color: #1b1b1b;
             padding: 0;
             background-color: unset;
-            border-bottom: 1px solid #ddd;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom: 1px solid var(--vt-c-gray-soft);
+            border-radius: 0;
           }
         }
       }
@@ -155,7 +157,7 @@
   }
   .right-content {
     padding: 1rem;
-    background: #e0e2d7;
+    background: var(--vt-c-gray-mute);
     @media (max-width: 767px) {
       width: 100%;
     }
@@ -207,31 +209,41 @@
 </style>
 
 <script setup lang="ts">
-import $ from 'jquery';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
+
 const router = useRouter();
+
+const dropdownOpen = ref(false);
+const selectedTitle = ref('Mr.');
+const name = ref('Adam');
+const email = ref('bazytepu@teleg.eu');
+const dropdownRef = ref<HTMLElement | null>(null);
+
+const toggleDropdown = () => {
+  dropdownOpen.value = !dropdownOpen.value;
+};
+
+const selectTitle = (title: string) => {
+  selectedTitle.value = title;
+  dropdownOpen.value = false;
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    dropdownOpen.value = false;
+  }
+};
+
 const submit = () => {
-  // Handle form submission logic here
   router.push('/confirmation');
 };
-$(function () {
-  $('.dropdown-btn').click(function (e) {
-    e.stopPropagation();
-    const dropdown = $(this).next('.dropdown-menu');
-    $('.dropdown-menu').not(dropdown).hide();
-    dropdown.toggle();
-  });
 
-  $(document).click(function () {
-    $('.dropdown-menu').hide();
-  });
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
 
-  $('.dropdown-item').click(function (e) {
-    e.preventDefault();
-    const textValue = $(this).text();
-    const $dropdown = $(this).closest('.dropdown');
-    $dropdown.find('.dropdown-text').text(textValue);
-    $dropdown.find('.dropdown-menu').hide();
-  });
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
 });
 </script>

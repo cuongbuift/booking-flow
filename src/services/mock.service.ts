@@ -83,10 +83,10 @@ const rooms: RoomInfo[] = [
   },
 ];
 
-export const getRooms = () => {
+export const getRooms = (order: 'asc' | 'desc') => {
   return new Promise<RoomInfo[]>((resolve) => {
     setTimeout(() => {
-      resolve(rooms);
+      resolve(rooms.sort((a, b) => (order === 'asc' ? a.price - b.price : b.price - a.price)));
     }, 250);
   });
 };
