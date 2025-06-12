@@ -30,19 +30,19 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/search',
-    component: () => import('../views/SearchPage.vue'),
+    component: () => import('../views/SearchView.vue'),
   },
   {
     path: '/room',
-    component: () => import('../views/ListingRoom.vue'),
+    component: () => import('../views/ListingRoomView.vue'),
   },
   {
     path: '/contact-details',
-    component: () => import('../views/ContactDetails.vue'),
+    component: () => import('../views/ContactDetailView.vue'),
   },
   {
     path: '/confirmation',
-    component: () => import('../views/Confirmation.vue'),
+    component: () => import('../views/ConfirmationView.vue'),
   },
 ];
 const history = createWebHistory();
