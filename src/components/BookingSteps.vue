@@ -1,6 +1,6 @@
 <template>
   <div class="booking-steps">
-    <RouterLink class="item" to="/search">
+    <RouterLink class="item" to="/">
       <span>1</span>
       <span>Search</span>
     </RouterLink>

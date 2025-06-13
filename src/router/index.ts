@@ -21,9 +21,8 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('../layouts/bookingView.vue'),
     children: [
-      { path: '/', redirect: '/search' },
       {
-        path: '/search',
+        path: '/',
         component: () => import('../views/SearchView.vue'),
       },
       {
