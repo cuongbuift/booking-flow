@@ -9,11 +9,7 @@
 </template>
 <style scoped lang="less">
 .content {
-  padding: 0 2rem;
   min-height: calc(100vh - 550px); /* Adjust based on header/footer height */
-  @media (max-width: 767px) {
-    padding: 0 1rem;
-  }
 }
 </style>
 <script setup lang="ts">

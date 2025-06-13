@@ -25,4 +25,9 @@ export interface Booking {
   tax?: number;
   roomPrice?: number;
   totalPrice?: number;
+  bookingDate?: string | Date;
+}
+
+export interface User {
+  email?: string;
 }

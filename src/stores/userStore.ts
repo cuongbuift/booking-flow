@@ -1,27 +1,36 @@
+import type { User } from '@/types';
 import { defineStore } from 'pinia';
+const key = 'user';
+const saveLocalStorage = (user: User) => {
+  localStorage.setItem(key, JSON.stringify(user));
+};
+const getLocalStorage = (): User => {
+  return JSON.parse(localStorage.getItem(key) || '{}');
+};
 
 export const useUserStore = defineStore('user', {
-  state: () => ({
-    isAuthenticated: false,
-    user: { email: '' },
-    bookingDetails: null,
-  }),
+  state: () => getLocalStorage(),
   actions: {
     login(email: string, password: string) {
       if (email && password) {
-        this.user = { email };
-        this.isAuthenticated = true;
+        this.email = email;
+        saveLocalStorage({
+          email,
+        });
         return true;
       }
       return false;
     },
     logout() {
-      this.isAuthenticated = false;
-      this.user = null;
-      this.bookingDetails = null;
+      this.email = undefined;
+      saveLocalStorage({
+        email: undefined,
+      });
     },
-    saveBooking(details) {
-      this.bookingDetails = details;
+  },
+  getters: {
+    isAuthenticated(state) {
+      return !!state.email;
     },
   },
 });

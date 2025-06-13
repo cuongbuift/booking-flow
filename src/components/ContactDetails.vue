@@ -1,7 +1,7 @@
 <template>
   <div class="contact-details-block">
-    <div class="contact-information">
-      <form @submit.prevent="submit">
+    <form @submit.prevent="submit" class="contact-information">
+      <div class="form">
         <h2>CONTACT INFORMATION</h2>
 
         <div class="form-group">
@@ -38,18 +38,22 @@
 
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" id="name" v-model="name" placeholder="Enter your name" />
+          <input type="text" id="name" v-model="name" placeholder="Enter your name" required />
         </div>
 
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email" v-model="email" placeholder="Enter your email address" />
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            placeholder="Enter your email address"
+            required
+          />
         </div>
-      </form>
-
-      <button type="button" class="btn-common" @click="submit">PROCEED</button>
-    </div>
-
+      </div>
+      <button type="submit" class="btn-common">PROCEED</button>
+    </form>
     <div class="right-content">
       <div class="search-selected-dates">
         <span>{{ formatDate(store.fromDate) }}</span>
@@ -110,7 +114,7 @@
       font-weight: 600;
       margin-bottom: 1rem;
     }
-    form {
+    .form {
       padding: 1rem 1rem 1.5rem;
       background: var(--vt-c-gray);
       border: 1px solid var(--vt-c-gray-soft);

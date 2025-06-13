@@ -32,40 +32,13 @@
       </p>
     </div>
 
-    <div class="booking-info">
-      <div class="left-content">
-        <div class="flex-box">
-          <img :src="store.room.image" :alt="store.room.title" class="room-thumbnail" />
-          <div>
-            <h4 class="room-title">{{ store.room.title }}</h4>
-            <p>1 GUEST</p>
-          </div>
-        </div>
-        <strong>PACKAGE:</strong>
-        <div class="fees">
-          <span>Room</span>
-          <span>{{ formatCurrency(store.roomPrice, 2) }}</span>
-        </div>
-        <div class="fees">
-          <span>Tax & Service Charges (9%)</span>
-          <span>{{ formatCurrency(store.tax, 2) }}</span>
-        </div>
-        <div class="fees">
-          <span>Total Price</span>
-          <span>{{ formatCurrency(store.totalPrice, 2) }}</span>
-        </div>
-      </div>
-
-      <div class="guest-detail">
-        <h5>GUEST DETAILS</h5>
-        <p>Name: {{ store.contact.title }} {{ store.contact.fullName }}</p>
-        <p>Email address: {{ store.contact.emailAddress }}</p>
-      </div>
-    </div>
+    <BookingItem :booking="store" />
   </div>
-  <div>
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/my-account">Your booking</RouterLink>
+  <div class="button-group">
+    <button type="button" class="btn-common" @click="router.push('/')">HOME</button>
+    <button type="button" class="btn-common" @click="router.push('/my-account')">
+      YOUR BOOKING
+    </button>
   </div>
 </template>
 <style scoped lang="less">
@@ -86,83 +59,24 @@
       letter-spacing: 1px;
     }
   }
-  .booking-info {
-    display: flex;
-    padding: 1rem;
-    text-align: left;
-    background: var(--vt-c-gray);
-    border: 1px solid var(--vt-c-gray-soft);
-    @media (max-width: 767px) {
-      flex-direction: column;
-    }
-    .left-content {
-      flex: 1;
-      padding-right: 1rem;
-      @media (max-width: 767px) {
-        margin-bottom: 2rem;
-      }
-    }
-    .room-thumbnail {
-      width: 100%;
-      max-width: 100px;
-      aspect-ratio: 340/210;
-      object-fit: cover;
-      margin-right: 1rem;
-    }
-    .room-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    .flex-box {
-      display: flex;
-      align-items: flex-start;
-      text-align: left;
-      margin-bottom: 1rem;
-    }
-    strong {
-      margin-bottom: 1rem;
-    }
-    .fees {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      &:last-child {
-        margin-bottom: 0;
-        span {
-          font-size: 1rem;
-        }
-      }
-      span {
-        font-size: 0.875rem;
-        color: #666;
-        letter-spacing: 1px;
-      }
-    }
-    .guest-detail {
-      width: 35%;
-      padding: 1.5rem 1rem;
-      background: var(--vt-c-gray-mute);
-      @media (max-width: 767px) {
-        width: 100%;
-      }
-      h5 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-      }
-    }
-  }
+}
+.button-group {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+import BookingItem from '../components/BookingItem.vue';
 import { formatCurrency, formatDate } from '../helpers/formatHelper';
 import useBookingStore from '../stores/bookingStore';
 const store = useBookingStore();
 const router = useRouter();
 onMounted(() => {
-  if (!store.contact?.name) router.push('/');
+  if (!store.contact?.fullName) router.push('/');
 });
 </script>

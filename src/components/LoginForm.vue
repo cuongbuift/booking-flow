@@ -62,17 +62,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
 
 const email = ref('');
 const password = ref('');
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 
 const handleLogin = () => {
   if (userStore.login(email.value, password.value)) {
-    router.push('/booking');
+    router.push((route.query.returnUrl as string) || '/');
   } else {
     alert('Invalid credentials');
   }

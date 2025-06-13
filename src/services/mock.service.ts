@@ -1,4 +1,5 @@
-import type { RoomInfo } from '@/types';
+import type { Booking, RoomInfo } from '@/types';
+import dayjs from 'dayjs';
 
 const rooms: RoomInfo[] = [
   {
@@ -83,6 +84,62 @@ const rooms: RoomInfo[] = [
   },
 ];
 
+const bookings: Booking[] = [];
+export const generateBooking = () => {
+  bookings.length = 0;
+  for (let index = 0; index < 10; index++) {
+    const room = rooms[Math.floor(Math.random() * 10)];
+    // Generate a random fromDate within February 2025
+    const startDay = Math.floor(Math.random() * 24) + 1; // 1 to 24
+    const maxNights = 5;
+    const nights = Math.floor(Math.random() * maxNights) + 1; // 1 to 5
+    const fromDate = `2025-06-${startDay.toString().padStart(2, '0')}`;
+    const toDate = dayjs(fromDate).add(nights, 'day').format('YYYY-MM-DD');
+    const night = dayjs(toDate).diff(dayjs(fromDate), 'day');
+    const roomPrice = room.price * night;
+    const tax = roomPrice * 0.09;
+    const totalPrice = roomPrice + tax;
+    const titles = ['Mr.', 'Mrs.'];
+    const names = [
+      { fullName: 'John Butler', emailAddress: 'john.b@email.com' },
+      { fullName: 'Emily Clark', emailAddress: 'emily.c@email.com' },
+      { fullName: 'Michael Smith', emailAddress: 'michael.s@email.com' },
+      { fullName: 'Sarah Johnson', emailAddress: 'sarah.j@email.com' },
+      { fullName: 'David Lee', emailAddress: 'david.l@email.com' },
+      { fullName: 'Anna Brown', emailAddress: 'anna.b@email.com' },
+      { fullName: 'James Wilson', emailAddress: 'james.w@email.com' },
+      { fullName: 'Linda Taylor', emailAddress: 'linda.t@email.com' },
+      { fullName: 'Robert Miller', emailAddress: 'robert.m@email.com' },
+      { fullName: 'Jessica Davis', emailAddress: 'jessica.d@email.com' },
+    ];
+    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+
+    const booking: Booking = {
+      no: `RES${Math.floor(100000000 + Math.random() * 900000000)}`,
+      fromDate,
+      toDate,
+      room,
+      contact: {
+        title: randomTitle,
+        fullName: randomName.fullName,
+        emailAddress: randomName.emailAddress,
+      },
+      adults: 2,
+      children: 0,
+      night,
+      tax,
+      roomPrice,
+      totalPrice,
+      bookingDate: dayjs()
+        .subtract(Math.floor(Math.random() * 60) + 1, 'day')
+        .format('YYYY-MM-DD'),
+    };
+
+    bookings.push(booking);
+  }
+};
+
 export const getRooms = (order: 'asc' | 'desc') => {
   return new Promise<RoomInfo[]>((resolve) => {
     setTimeout(() => {
@@ -96,6 +153,24 @@ export const getRoomById = (id: number) => {
     setTimeout(() => {
       const room = rooms.find((room) => room.id === id);
       resolve(room);
+    }, 250);
+  });
+};
+
+export const getUpComingBooking = () => {
+  return new Promise<Booking[]>((resolve) => {
+    setTimeout(() => {
+      const data = bookings.filter((x) => dayjs(x.fromDate).isAfter(dayjs(), 'day'));
+      resolve(data);
+    }, 250);
+  });
+};
+
+export const getPassBooking = () => {
+  return new Promise<Booking[]>((resolve) => {
+    setTimeout(() => {
+      const data = bookings.filter((x) => dayjs().isAfter(dayjs(x.fromDate), 'day'));
+      resolve(data);
     }, 250);
   });
 };

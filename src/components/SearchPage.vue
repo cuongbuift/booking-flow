@@ -149,6 +149,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { formatDate, formatDateISO } from '../helpers/formatHelper';
+import useBookingStore from '../stores/bookingStore';
 const openDropdown = ref<boolean>(false);
 // Range selection
 const dateRange = ref<[Date, Date]>([new Date(), dayjs(new Date()).add(1, 'day').toDate()]);
@@ -157,6 +158,8 @@ const guests = ref({
   adults: 1,
   children: 0,
 });
+// store
+const store = useBookingStore();
 
 const router = useRouter();
 
@@ -197,6 +200,9 @@ function onClickOutside(e: MouseEvent) {
 }
 
 onMounted(() => {
+  guests.value.adults = store.adults;
+  guests.value.children = store.children;
+  dateRange.value = [dayjs(store.fromDate).toDate(), dayjs(store.toDate).toDate()];
   document.addEventListener('click', onClickOutside);
 });
 onBeforeUnmount(() => {

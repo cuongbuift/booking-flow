@@ -11,39 +11,39 @@ const authGuard: NavigationGuardWithThis<unknown> = (to, from, next) => {
   if (store.isAuthenticated) {
     next();
   } else {
-    next('/login');
+    const returnUrl = to.fullPath;
+    next({ path: '/login', query: { returnUrl } });
   }
 };
 
 const routes: RouteRecordRaw[] = [
-  { path: '/', redirect: '/search' },
+  {
+    path: '/',
+    component: () => import('../layouts/bookingView.vue'),
+    children: [
+      { path: '/', redirect: '/search' },
+      {
+        path: '/search',
+        component: () => import('../views/SearchView.vue'),
+      },
+      {
+        path: '/room',
+        component: () => import('../views/ListingRoomView.vue'),
+      },
+      {
+        path: '/contact-details',
+        component: () => import('../views/ContactDetailView.vue'),
+        beforeEnter: authGuard,
+      },
+      {
+        path: '/confirmation',
+        component: () => import('../views/ConfirmationView.vue'),
+        beforeEnter: authGuard,
+      },
+    ],
+  },
   { path: '/login', component: () => import('../views/LoginView.vue') },
-  {
-    path: '/booking',
-    component: () => import('../views/BookingView.vue'),
-    //beforeEnter: authGuard,
-  },
-  {
-    path: '/summary',
-    component: () => import('../views/SummaryView.vue'),
-    //beforeEnter: authGuard,
-  },
-  {
-    path: '/search',
-    component: () => import('../views/SearchView.vue'),
-  },
-  {
-    path: '/room',
-    component: () => import('../views/ListingRoomView.vue'),
-  },
-  {
-    path: '/contact-details',
-    component: () => import('../views/ContactDetailView.vue'),
-  },
-  {
-    path: '/confirmation',
-    component: () => import('../views/ConfirmationView.vue'),
-  },
+  { path: '/my-account', component: () => import('../views/MyAccountView.vue') },
 ];
 const history = createWebHistory();
 
