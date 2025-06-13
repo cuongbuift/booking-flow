@@ -5,7 +5,7 @@
       <span>Search</span>
     </RouterLink>
 
-    <RouterLink v-if="props.step > 2" :to="{ path: '/room', query: searchParams() }" class="item">
+    <RouterLink v-if="props.step > 2" :to="{ path: '/room', query: query }" class="item">
       <span>2</span>
       <span>Select room</span>
     </RouterLink>
@@ -77,14 +77,13 @@
 }
 </style>
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { type LocationQueryRaw, RouterLink } from 'vue-router';
 import useBookingStore from '../stores/bookingStore';
 const props = defineProps<{
   step: number;
 }>();
 const bookingStore = useBookingStore();
-
-const searchParams = () => {
-  return bookingStore.searchParams;
+const query: LocationQueryRaw = {
+  ...bookingStore.searchParams,
 };
 </script>

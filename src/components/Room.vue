@@ -89,7 +89,7 @@
 }
 </style>
 <script setup lang="ts">
-import { RoomInfo } from '../types';
+import type { RoomInfo } from '../types';
 import { formatCurrency } from '../helpers/formatHelper';
 const props = defineProps<{
   room: RoomInfo;

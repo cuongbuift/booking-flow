@@ -32,7 +32,7 @@
       </p>
     </div>
 
-    <BookingItem :booking="store" />
+    <BookingItem :booking="store.getBooking" />
   </div>
   <div class="button-group">
     <button type="button" class="btn-common" @click="router.push('/')">HOME</button>

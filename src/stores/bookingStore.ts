@@ -1,3 +1,4 @@
+import { formatDateISO } from '@/helpers/formatHelper';
 import type { Booking, RoomInfo } from '@/types';
 import dayjs from 'dayjs';
 import { defineStore } from 'pinia';
@@ -66,10 +67,26 @@ const useBookingStore = defineStore(keyStore, {
   getters: {
     searchParams(state) {
       return {
-        fromDate: state.fromDate,
-        toDate: state.toDate,
+        fromDate: formatDateISO(state.fromDate),
+        toDate: formatDateISO(state.toDate),
         adults: state.adults,
         children: state.children,
+      };
+    },
+    getBooking(state): Booking {
+      return {
+        room: this.room,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        adults: this.adults,
+        children: this.children,
+        night: this.night,
+        roomPrice: this.roomPrice,
+        tax: this.tax,
+        totalPrice: this.totalPrice,
+        no: this.no,
+        contact: this.contact,
+        bookingDate: new Date(),
       };
     },
   },

@@ -149,6 +149,7 @@ nav {
 }
 </style>
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
 
 const store = useUserStore();

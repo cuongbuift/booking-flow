@@ -200,9 +200,11 @@ function onClickOutside(e: MouseEvent) {
 }
 
 onMounted(() => {
-  guests.value.adults = store.adults;
-  guests.value.children = store.children;
-  dateRange.value = [dayjs(store.fromDate).toDate(), dayjs(store.toDate).toDate()];
+  guests.value.adults = store.adults || 1;
+  guests.value.children = store.children || 0;
+  if (store.fromDate && store.toDate) {
+    dateRange.value = [dayjs(store.fromDate).toDate(), dayjs(store.toDate).toDate()];
+  }
   document.addEventListener('click', onClickOutside);
 });
 onBeforeUnmount(() => {

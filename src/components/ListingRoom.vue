@@ -156,7 +156,7 @@ const selectOption = (option: string) => {
 };
 
 const selectRoom = (room: RoomInfo) => {
-  bookingStore.selectRoom(room, fromDate, toDate, adults, children);
+  bookingStore.selectRoom(room, fromDate, toDate, +adults, +children);
   router.push('/contact-details');
 };
 

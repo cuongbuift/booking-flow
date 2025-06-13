@@ -3,27 +3,27 @@
     <div class="left-content">
       <div class="flex-box">
         <img
-          :src="props.booking.room.image"
-          :alt="props.booking.room.title"
+          :src="props.booking?.room?.image"
+          :alt="props.booking?.room?.title"
           class="room-thumbnail"
         />
         <div>
-          <h4 class="room-title">{{ props.booking.room.title }}</h4>
+          <h4 class="room-title">{{ props.booking?.room?.title }}</h4>
           <p class="guests">{{ guestText }}</p>
         </div>
       </div>
       <strong>PACKAGE:</strong>
       <div class="fees">
         <span>Room</span>
-        <span>{{ formatCurrency(props.booking.roomPrice, 2) }}</span>
+        <span>{{ formatCurrency(props.booking?.roomPrice, 2) }}</span>
       </div>
       <div class="fees">
         <span>Tax & Service Charges (9%)</span>
-        <span>{{ formatCurrency(props.booking.tax, 2) }}</span>
+        <span>{{ formatCurrency(props.booking?.tax, 2) }}</span>
       </div>
       <div class="fees">
         <span>Total Price</span>
-        <span>{{ formatCurrency(props.booking.totalPrice, 2) }}</span>
+        <span>{{ formatCurrency(props.booking?.totalPrice, 2) }}</span>
       </div>
     </div>
 
@@ -31,13 +31,13 @@
       <template v-if="props.showInfo">
         <h5>BOOKING INFORMATION</h5>
         <p>
-          Booking No: <b>#{{ props.booking.no }}</b>
+          Booking No: <b>#{{ props.booking?.no }}</b>
         </p>
         <p>
-          Booking Date: <b>{{ formatDate(props.booking.bookingDate) }}</b>
+          Booking Date: <b>{{ formatDate(props.booking?.bookingDate) }}</b>
         </p>
         <p>
-          Check-in/Check-out: <b>{{ formatDate(props.booking.fromDate) }}</b>
+          Check-in/Check-out: <b>{{ formatDate(props.booking?.fromDate) }}</b>
           <svg
             width="16"
             height="16"
@@ -54,12 +54,12 @@
               stroke-linejoin="round"
             />
           </svg>
-          <b>{{ formatDate(props.booking.toDate) }}</b>
+          <b>{{ formatDate(props.booking?.toDate) }}</b>
         </p>
       </template>
       <h5 class="mt">GUEST DETAILS</h5>
-      <p>Name: {{ props.booking.contact.title }} {{ props.booking.contact.fullName }}</p>
-      <p>Email address: {{ props.booking.contact.emailAddress }}</p>
+      <p>Name: {{ props.booking?.contact?.title }} {{ props.booking?.contact?.fullName }}</p>
+      <p>Email address: {{ props.booking?.contact?.emailAddress }}</p>
     </div>
   </div>
 </template>
@@ -147,10 +147,10 @@ import { computed } from 'vue';
 import { formatCurrency, formatDate } from '../helpers/formatHelper';
 import type { Booking } from '../types';
 const guestText = computed(() => {
-  return `${props.booking.adults} Adult${props.booking.adults > 1 ? 's' : ''}, ${props.booking.children} Child${props.booking.children !== 1 ? 'ren' : ''}`;
+  return `${props.booking?.adults} Adult${(props.booking?.adults || 0) > 1 ? 's' : ''}, ${props.booking?.children} Child${props.booking?.children !== 1 ? 'ren' : ''}`;
 });
 const props = defineProps<{
   booking: Booking;
-  showInfo: boolean;
+  showInfo?: boolean;
 }>();
 </script>
