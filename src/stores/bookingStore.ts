@@ -1,4 +1,4 @@
-import { formatDateISO } from '@/helpers/formatHelper';
+import { formatDateISO, generateBookingNo } from '@/helpers';
 import type { Booking, RoomInfo } from '@/types';
 import dayjs from 'dayjs';
 import { defineStore } from 'pinia';
@@ -39,7 +39,7 @@ const useBookingStore = defineStore(keyStore, {
       this.store();
     },
     addContact(title: string, fullName: string, emailAddress: string) {
-      this.no = `RES${Math.floor(100000000 + Math.random() * 900000000)}`;
+      this.no = generateBookingNo();
       this.contact = {
         title,
         fullName,
@@ -75,17 +75,17 @@ const useBookingStore = defineStore(keyStore, {
     },
     getBooking(state): Booking {
       return {
-        room: this.room,
-        fromDate: this.fromDate,
-        toDate: this.toDate,
-        adults: this.adults,
-        children: this.children,
-        night: this.night,
-        roomPrice: this.roomPrice,
-        tax: this.tax,
-        totalPrice: this.totalPrice,
-        no: this.no,
-        contact: this.contact,
+        room: state.room,
+        fromDate: state.fromDate,
+        toDate: state.toDate,
+        adults: state.adults,
+        children: state.children,
+        night: state.night,
+        roomPrice: state.roomPrice,
+        tax: state.tax,
+        totalPrice: state.totalPrice,
+        no: state.no,
+        contact: state.contact,
         bookingDate: new Date(),
       };
     },

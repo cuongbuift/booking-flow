@@ -22,3 +22,5 @@ export const formatDate = (value: Date | string | null | undefined) => {
   if (!value) return '';
   return dayjs(value).format('MMM DD, YYYY');
 };
+
+export const generateBookingNo = () => `RES${Math.floor(100000000 + Math.random() * 900000000)}`;

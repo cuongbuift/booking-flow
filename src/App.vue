@@ -9,7 +9,7 @@
 </template>
 <style scoped lang="less">
 .content {
-  min-height: calc(100vh - 550px); /* Adjust based on header/footer height */
+  min-height: calc(100vh - 550px);
 }
 </style>
 <script setup lang="ts">

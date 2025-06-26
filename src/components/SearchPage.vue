@@ -148,7 +148,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
-import { formatDate, formatDateISO } from '../helpers/formatHelper';
+import { formatDate, formatDateISO } from '../helpers';
 import useBookingStore from '../stores/bookingStore';
 const openDropdown = ref<boolean>(false);
 // Range selection

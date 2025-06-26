@@ -219,8 +219,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import { formatDate, formatCurrency } from '../helpers/formatHelper';
+import { formatDate, formatCurrency } from '../helpers';
 import useBookingStore from '../stores/bookingStore';
+import { submitBooking } from '@/services/bookingService';
 
 const router = useRouter();
 
@@ -246,8 +247,9 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-const submit = () => {
+const submit = async () => {
   store.addContact(selectedTitle.value, name.value, email.value);
+  await submitBooking(store.getBooking);
   router.push('/confirmation');
 };
 

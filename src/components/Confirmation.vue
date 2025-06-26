@@ -72,7 +72,7 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import BookingItem from '../components/BookingItem.vue';
-import { formatCurrency, formatDate } from '../helpers/formatHelper';
+import { formatCurrency, formatDate } from '../helpers';
 import useBookingStore from '../stores/bookingStore';
 const store = useBookingStore();
 const router = useRouter();

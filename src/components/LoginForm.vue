@@ -65,8 +65,8 @@ import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '../stores/userStore';
 
-const email = ref('');
-const password = ref('');
+const email = ref('any@email.com');
+const password = ref('any');
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();

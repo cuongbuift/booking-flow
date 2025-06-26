@@ -70,6 +70,7 @@
   text-align: left;
   background: var(--vt-c-gray);
   border: 1px solid var(--vt-c-gray-soft);
+  margin-bottom: 1rem;
   @media (max-width: 767px) {
     flex-direction: column;
   }
@@ -121,7 +122,7 @@
     }
   }
   .guest-detail {
-    width: 35%;
+    width: 40%;
     padding: 1.5rem 1rem;
     background: var(--vt-c-gray-mute);
     @media (max-width: 767px) {
@@ -144,7 +145,7 @@
 </style>
 <script setup lang="ts">
 import { computed } from 'vue';
-import { formatCurrency, formatDate } from '../helpers/formatHelper';
+import { formatCurrency, formatDate } from '../helpers';
 import type { Booking } from '../types';
 const guestText = computed(() => {
   return `${props.booking?.adults} Adult${(props.booking?.adults || 0) > 1 ? 's' : ''}, ${props.booking?.children} Child${props.booking?.children !== 1 ? 'ren' : ''}`;

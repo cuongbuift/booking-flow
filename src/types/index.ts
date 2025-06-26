@@ -1,5 +1,5 @@
 export interface RoomInfo {
-  id?: number;
+  id?: string;
   title?: string;
   description?: string;
   content?: string;
@@ -14,6 +14,7 @@ export interface Contact {
 }
 
 export interface Booking {
+  id?: string;
   no?: string;
   fromDate?: string | Date;
   toDate?: string | Date;

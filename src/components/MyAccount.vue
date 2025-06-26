@@ -1,12 +1,12 @@
 <template>
-  <h2 class="booking up-coming">Up coming booking</h2>
+  <h2 v-if="upComingBooking?.length" class="booking up-coming">Up coming booking</h2>
   <BookingItem
     v-for="booking in upComingBooking"
     :key="booking.no"
     :booking="booking"
     :showInfo="true"
   />
-  <hr />
+  <hr v-if="upComingBooking?.length" />
   <h2 class="booking pass">Pass booking</h2>
   <BookingItem
     v-for="booking in passBooking"
@@ -31,19 +31,18 @@
 </style>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { generateBooking, getPassBooking, getUpComingBooking } from '../services/mock.service';
 import type { Booking } from '../types';
 import BookingItem from './BookingItem.vue';
+import { getComingBooking, getPassBooking } from '@/services/bookingService';
 const upComingBooking = ref<Booking[]>([]);
 const passBooking = ref<Booking[]>([]);
 onMounted(async () => {
-  generateBooking();
   await getUpcoming();
   await getPass();
 });
 
 const getUpcoming = async () => {
-  const data = await getUpComingBooking();
+  const data = await getComingBooking();
   upComingBooking.value = [...data];
 };
 const getPass = async () => {

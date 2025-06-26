@@ -117,10 +117,10 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Room from '../components/Room.vue';
 import { type RoomInfo } from '../types';
-import { getRooms } from '../services/mock.service';
-import { formatDate } from '../helpers/formatHelper';
+import { formatDate } from '../helpers';
 import useBookingStore from '../stores/bookingStore';
 import dayjs from 'dayjs';
+import { getRooms } from '@/services';
 
 const dropdownOpen = ref(false);
 const selectedOption = ref('LOWEST PRICE');
