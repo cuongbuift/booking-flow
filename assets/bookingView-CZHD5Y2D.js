@@ -1,1 +1,0 @@
-import{d as a,c as t,o,a as s,b as n,u as r,R as c,F as l}from"./index-BpPGN7In.js";const p=a({__name:"bookingView",setup(u){return(i,e)=>(o(),t(l,null,[e[0]||(e[0]=s("h1",{class:"title"},"BOOK A ROOM",-1)),n(r(c))],64))}});export{p as default};
